@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Status Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>🏦 Loan Status Predictor</h1>
+            <p>Fill in the applicant details to predict loan approval</p>
+        </div>
+
+        <form method="POST" action="/">
+            <div class="form-grid">
+
+                <!-- Row 1 -->
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select name="Gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Married</label>
+                    <select name="Married">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Dependents</label>
+                    <select name="Dependents">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3+">3+</option>
+                    </select>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="form-group">
+                    <label>Education</label>
+                    <select name="Education">
+                        <option value="Graduate">Graduate</option>
+                        <option value="Not Graduate">Not Graduate</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Self Employed</label>
+                    <select name="Self_Employed">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Property Area</label>
+                    <select name="Property_Area">
+                        <option value="Urban">Urban</option>
+                        <option value="Semiurban">Semiurban</option>
+                        <option value="Rural">Rural</option>
+                    </select>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="form-group">
+                    <label>Credit History</label>
+                    <select name="Credit_History">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Loan Amount Term (months)</label>
+                    <select name="Loan_Amount_Term">
+                        <option value="360">360</option>
+                        <option value="120">120</option>
+                        <option value="240">240</option>
+                        <option value="180">180</option>
+                        <option value="60">60</option>
+                        <option value="300">300</option>
+                        <option value="480">480</option>
+                        <option value="36">36</option>
+                        <option value="84">84</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+
+                <!-- Row 4 - Number inputs -->
+                <div class="form-group">
+                    <label>Applicant Income (₹)</label>
+                    <input type="number" name="ApplicantIncome" placeholder="e.g. 5000" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Coapplicant Income (₹)</label>
+                    <input type="number" name="CoapplicantIncome" placeholder="e.g. 2000" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Loan Amount (₹ thousands)</label>
+                    <input type="number" name="LoanAmount" placeholder="e.g. 150" min="0" required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="submit-btn">Predict Loan Status</button>
+        </form>
+
+        <!-- Result Box -->
+        {% if result %}
+        <div class="result-box {{ 'approved' if result == 'Approved' else 'rejected' }}">
+            {% if result == 'Approved' %}
+                <h2>✅ Loan Approved</h2>
+            {% else %}
+                <h2>❌ Loan Rejected</h2>
+            {% endif %}
+            <p>Confidence: <strong>{{ confidence }}%</strong></p>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="result-box rejected">
+            <h2>⚠️ Error</h2>
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
